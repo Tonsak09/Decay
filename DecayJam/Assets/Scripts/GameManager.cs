@@ -6,6 +6,14 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+
+    [Header("Spawning")]
+    [SerializeField] GameObject[] children;
+    [SerializeField] List<Patrol> zones;
+    [SerializeField] int minSpawn;
+    [SerializeField] int maxSpawn;
+    [SerializeField] float spawnRange;
+
     [Header("Game Values")]
     [SerializeField] float timeGainedFromConsume;
 
@@ -32,6 +40,11 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         timer = startTime;
+
+        foreach (Patrol zone in zones)
+        {
+            SpawnChildren(zone);
+        }
     }
 
     // Update is called once per frame
@@ -57,11 +70,34 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(Appear(endApeearSpeed, endScreen.GetComponent<Image>(), endText));
             }
         }
+
+        for (int i = 0; i < zones.Count; i++)
+        {
+            if(zones[i].needsChildren)
+            {
+                if(Vector3.Distance(player.transform.position, zones[i].transform.position) > zones[i].Size)
+                {
+                    SpawnChildren(zones[i]);
+                }
+            }
+        }
     }
 
     public void ConsumeChild()
     {
         childCount += 1;
+        timer += timeGainedFromConsume;
+    }
+
+    private void SpawnChildren(Patrol zone)
+    {
+        int spawnAmount = Random.Range(minSpawn, maxSpawn);
+        for (int i = 0; i < spawnAmount; i++)
+        {
+            GameObject temp = Instantiate(children[Random.Range(0, children.Length)]);
+            zone.AddChild(temp.GetComponent<Child>(), spawnRange);
+        }
+        zone.SetUpChildren();
     }
 
     private IEnumerator Appear(float speed, Image image, GameObject textToAppear)

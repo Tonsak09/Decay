@@ -68,9 +68,15 @@ public class Player : MonoBehaviour
                 {
                     colliders[i].GetComponent<Child>().CaptureChild(this.transform);
                 }
+
+                spellSizeLerp = Mathf.Clamp01(spellSizeLerp + Time.deltaTime * appearSpeed);
+
+            }
+            else
+            {
+                spellSizeLerp = Mathf.Clamp01(spellSizeLerp - Time.deltaTime * disappearSpeed);
             }
 
-            spellSizeLerp = Mathf.Clamp01(spellSizeLerp + Time.deltaTime * appearSpeed);
         }
         else
         {
@@ -92,7 +98,6 @@ public class Player : MonoBehaviour
         }
 
         this.transform.position += direction * speed * Time.deltaTime;
-        print(direction);
         if (horizontal != 0)
         {
             // Horizontal Movement 

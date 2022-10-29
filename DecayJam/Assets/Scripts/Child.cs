@@ -22,18 +22,26 @@ public class Child : MonoBehaviour
 
     [Header("Animation")]
     [SerializeField] Texture[] front;
+    [SerializeField] Texture[] back;
+    [SerializeField] Texture[] right;
+    [SerializeField] Texture[] left;
     [SerializeField] Texture[] turnToAsh;
+    [SerializeField] Transform displayQuad;
 
+    private MiniAnimator mini;
     private GameManager gm;
+    public Transform pathParent;
     private List<Vector3> path;
     private float captureAmount;
 
-    private Vector3 runAwayVec;
+    private Vector3 moveVec;
+    private bool bouncing;
 
     // Start is called before the first frame update
     void Start()
     {
         gm = GameObject.FindObjectOfType<GameManager>();
+        mini = this.GetComponent<MiniAnimator>();
     }
 
     // Update is called once per frame
@@ -45,6 +53,8 @@ public class Child : MonoBehaviour
             {
                 bar.transform.localScale = new Vector3(captureAmount, 0.2f, 1);
                 RunAway();
+
+                MovingSprites();
             }
             else
             {
@@ -56,18 +66,55 @@ public class Child : MonoBehaviour
             // Still not attacked 
             FollowPath();
         }
+
+       
     }
 
     private void RunAway()
     {
-        this.transform.position += runAwayVec * runSpeed * Time.deltaTime;
+        this.transform.position += moveVec * runSpeed * Time.deltaTime;
         Collider[] colliders = Physics.OverlapSphere(this.transform.position, checkRadius, terrainMask);
 
         if(colliders.Length > 0)
         {
-            runAwayVec = (this.transform.position - colliders[0].ClosestPoint(this.transform.position)).normalized;
+            moveVec = (this.transform.position - colliders[0].ClosestPoint(this.transform.position)).normalized;
         }
 
+    }
+
+    private void MovingSprites()
+    {
+        // Always moving so always update 
+        if (Mathf.Abs(moveVec.x) > Mathf.Abs(moveVec.z))
+        {
+            if (moveVec.x > 0)
+            {
+                // Right
+                mini.frames = right;
+                displayQuad.localScale = new Vector3(-1, 1, 1);
+            }
+            else
+            {
+                // Left
+                mini.frames = left;
+                displayQuad.localScale = new Vector3(1, 1, 1);
+            }
+        }
+        else
+        {
+            if (moveVec.z > 0)
+            {
+                // Back
+                mini.frames = back;
+                displayQuad.localScale = new Vector3(1, 1, 1);
+            }
+            else
+            {
+                // Forward 
+                mini.frames = front;
+                displayQuad.localScale = new Vector3(1, 1, 1);
+            }
+        }
     }
 
     /// <summary>
@@ -75,10 +122,11 @@ public class Child : MonoBehaviour
     /// </summary>
     private void FollowPath()
     {
-        Vector3 vec = (path[currentPathIndex] - this.transform.position).normalized;
+        Vector3 pos = pathParent.position + pathParent.TransformDirection(path[currentPathIndex]);
+        moveVec = (pos - this.transform.position).normalized;
 
         // TODO: Spline 
-        if(Vector3.Distance(this.transform.position, path[currentPathIndex]) < minDisBeforeMeet)
+        if(Vector3.Distance(this.transform.position, pos) < minDisBeforeMeet)
         {
             if(currentPathIndex + 1 < path.Count)
             {
@@ -91,16 +139,17 @@ public class Child : MonoBehaviour
             }
         }
 
-        this.transform.position += vec * walkSpeed * Time.deltaTime;
+        this.transform.position += moveVec * walkSpeed * Time.deltaTime;
     }
 
     /// <summary>
     /// When creating a child set its path to follow a set of points 
     /// </summary>
     /// <param name="_path"></param>
-    public void SetPath(List<Vector3> _path, int _index)
+    public void SetPath(List<Vector3> _path, Transform parentPatrol, int _index)
     {
         path = _path;
+        pathParent = parentPatrol;
         currentPathIndex = _index;
     }
 
@@ -114,9 +163,10 @@ public class Child : MonoBehaviour
         captureAmount += captureSpeed * Time.deltaTime;
         bool childCaptured = captureAmount >= 1;
 
-        if(runAwayVec == Vector3.zero)
+        if (captureAmount > 0 && bouncing == false)
         {
-            runAwayVec = (this.transform.position - witch.position).normalized;
+            bouncing = true;
+            moveVec = (this.transform.position - witch.position).normalized;
         }
 
         if (childCaptured)
@@ -124,6 +174,7 @@ public class Child : MonoBehaviour
             // Turn to spectar 
             bar.localScale = Vector3.zero;
             gm.ConsumeChild();
+            pathParent.GetComponent<Patrol>().RemoveChild(this);
             StartCoroutine(TurnToAshCo());
             // Follow witch 
         }

@@ -5,11 +5,44 @@ using UnityEngine;
 public class Patrol : MonoBehaviour
 {
 
+    [SerializeField] float size;
     [SerializeField] List<Vector3> path;
     [SerializeField] List<Child> children;
 
+    public float Size { get { return size; } }
+    public bool needsChildren { get; set; }
+
     // Start is called before the first frame update
     void Start()
+    {
+        SetUpChildren();
+    }
+
+    private void Update()
+    {
+        needsChildren = (children.Count <= 1);
+    }
+
+    /// <summary>
+    /// Adds a child randomly to some point along the path 
+    /// </summary>
+    public void AddChild(Child child, float range)
+    {
+        children.Add(child);
+        int index = Random.Range(0, path.Count);
+
+        Vector3 pos = this.transform.position + this.transform.TransformDirection(path[index]);
+        child.transform.position = pos + new Vector3(Random.Range(-range, range), 0, Random.Range(-range, range));
+        child.pathParent = this.transform;
+
+    }
+
+    public void RemoveChild(Child child)
+    {
+        children.Remove(child);
+    }
+
+    public void SetUpChildren()
     {
         for (int i = 0; i < children.Count; i++)
         {
@@ -18,7 +51,9 @@ public class Patrol : MonoBehaviour
             // Finds closest point 
             for (int j = 0; j < path.Count; j++)
             {
-                float tempDis = (path[j] - children[i].transform.position).sqrMagnitude;
+                Vector3 pos = this.transform.position + this.transform.TransformDirection(path[j]);
+
+                float tempDis = (pos - children[i].transform.position).sqrMagnitude;
                 if (tempDis < sqrtMag)
                 {
                     index = j;
@@ -26,16 +61,8 @@ public class Patrol : MonoBehaviour
                 }
             }
 
-            children[i].SetPath(path, index);
+            children[i].SetPath(path, this.transform, index);
         }
-    }
-    
-    /// <summary>
-    /// Adds a child randomly to some point along the path 
-    /// </summary>
-    public void AddChild()
-    {
-        
     }
 
     /// <summary>
@@ -65,5 +92,7 @@ public class Patrol : MonoBehaviour
                 Gizmos.DrawLine(pos, this.transform.position + this.transform.TransformDirection(path[0]));
             }
         }
+
+        Gizmos.DrawWireSphere(this.transform.position, size);
     }
 }
