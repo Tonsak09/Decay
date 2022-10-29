@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] GameManager manager;
     [Header("Visauls")]
     [SerializeField] Transform displayQuad;
     [SerializeField] Material playerMaterial;

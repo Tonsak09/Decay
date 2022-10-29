@@ -7,6 +7,8 @@ public class Child : MonoBehaviour
     [Header("Capturing")]
     [SerializeField] Transform bar;
     [SerializeField] float captureSpeed;
+    [SerializeField] float delayBeforeAnim;
+    [SerializeField] float animSpeed;
 
     [Header("Speeds")]
     [SerializeField] float walkSpeed;
@@ -20,7 +22,9 @@ public class Child : MonoBehaviour
 
     [Header("Animation")]
     [SerializeField] Texture[] front;
+    [SerializeField] Texture[] turnToAsh;
 
+    private GameManager gm;
     private List<Vector3> path;
     private float captureAmount;
 
@@ -29,7 +33,7 @@ public class Child : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        gm = GameObject.FindObjectOfType<GameManager>();
     }
 
     // Update is called once per frame
@@ -37,10 +41,14 @@ public class Child : MonoBehaviour
     {
         if(captureAmount > 0)
         {
-            bar.transform.localScale = new Vector3(captureAmount, 0.2f, 1);
             if(captureAmount <= 1)
             {
+                bar.transform.localScale = new Vector3(captureAmount, 0.2f, 1);
                 RunAway();
+            }
+            else
+            {
+                // Fully Captured 
             }
         }
         else
@@ -113,14 +121,32 @@ public class Child : MonoBehaviour
 
         if (childCaptured)
         {
-            // Cease movment 
-
             // Turn to spectar 
-
+            bar.localScale = Vector3.zero;
+            gm.ConsumeChild();
+            StartCoroutine(TurnToAshCo());
             // Follow witch 
         }
 
         return childCaptured;
+    }
+
+    private IEnumerator TurnToAshCo()
+    {
+        MiniAnimator mini = this.GetComponent<MiniAnimator>();
+        mini.frames = turnToAsh;
+        mini.currentIndex = 0;
+        mini.active = false;
+        mini.PlayAnimation(); // Set first frame 
+
+        yield return new WaitForSeconds(delayBeforeAnim);
+
+        mini.TimePerFram = animSpeed;
+        mini.active = true;
+
+        float totalTime = animSpeed * (turnToAsh.Length + 1);
+        yield return new WaitForSeconds(totalTime);
+        mini.active = false;
     }
 
     private void OnDrawGizmos()

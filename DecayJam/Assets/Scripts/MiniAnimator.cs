@@ -4,12 +4,22 @@ using UnityEngine;
 
 public class MiniAnimator : MonoBehaviour
 {
-    [SerializeField] Texture[] frames;
+    [SerializeField] public Texture[] frames;
     [SerializeField] float time;
     [SerializeField] Renderer rend;
 
     private float timer;
-    private int currentIndex;
+    public int currentIndex;
+
+    public bool active;
+
+    public float TimePerFram { get { return time; }
+        set
+        {
+            time = value;
+            timer = value;
+        }
+    }
 
     private void Start()
     {
@@ -18,7 +28,10 @@ public class MiniAnimator : MonoBehaviour
 
     private void Update()
     {
-        PlayAnimation();
+        if(active)
+        {
+            PlayAnimation();
+        }
     }
 
     public void PlayAnimation()
