@@ -18,6 +18,9 @@ public class Child : MonoBehaviour
     [SerializeField] float checkRadius;
     [SerializeField] LayerMask terrainMask;
 
+    [Header("Animation")]
+    [SerializeField] Texture[] front;
+
     private List<Vector3> path;
     private float captureAmount;
 
