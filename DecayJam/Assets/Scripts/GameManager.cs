@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -105,6 +106,11 @@ public class GameManager : MonoBehaviour
             zone.AddChild(temp.GetComponent<Child>(), spawnRange);
         }
         zone.SetUpChildren();
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(0);
     }
 
     private IEnumerator Appear(float speed, Image image, GameObject textToAppear)
