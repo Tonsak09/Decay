@@ -35913,9 +35913,10 @@ MonoBehaviour:
   animSpeed: 0
   spellMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 136
   maxDis: 10
   offset: {x: 0, y: 0.1, z: 0}
+  active: 0
 --- !u!4 &1110759316
 Transform:
   m_ObjectHideFlags: 0
@@ -51330,7 +51331,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1538183473}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.4397142, y: 0.1, z: -1.6928763}
+  m_LocalPosition: {x: 0.6079488, y: 0.1, z: -2.526591}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -68558,13 +68559,13 @@ MonoBehaviour:
   - {fileID: 4454801490237708815, guid: 7448234c6e194f04b905e03b2f74be03, type: 3}
   zones:
   - {fileID: 1671636268}
-  minSpawn: 3
+  minSpawn: 5
   maxSpawn: 10
   spawnRange: 5
-  timeGainedFromConsume: 5
+  timeGainedFromConsume: 1
   timerText: {fileID: 1836509258}
-  startTime: 100
-  timerSpeed: 1.5
+  startTime: 60
+  timerSpeed: 1
   player: {fileID: 1110759315}
   endScreen: {fileID: 679050126}
   endText: {fileID: 1815517771}

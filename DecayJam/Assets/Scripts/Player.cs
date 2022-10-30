@@ -69,6 +69,8 @@ public class Player : MonoBehaviour
     private MiniAnimator mini;
     private SoundManager sm;
 
+    public float startTime { get; set; }
+
     public bool active;
 
     // Start is called before the first frame update
@@ -153,15 +155,15 @@ public class Player : MonoBehaviour
         {
             vertical = -1;
         }
-        if (manager.TimeLeft <= 25)
+        if (manager.TimeLeft <= (0.25f * startTime))
         {
             SetSprite(vertical, horizontal, front75, back75, right75, left75);
         }
-        else if (manager.TimeLeft <= 50)
+        else if (manager.TimeLeft <= (0.50f * startTime))
         {
             SetSprite(vertical, horizontal, front50, back50, right50, left50);
         }
-        else if (manager.TimeLeft <= 75)
+        else if (manager.TimeLeft <= (0.75f * startTime))
         {
             SetSprite(vertical, horizontal, front25, back25, right25, left25);
         }

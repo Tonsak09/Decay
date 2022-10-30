@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         timer = startTime;
+        player.startTime = startTime;
 
         foreach (Patrol zone in zones)
         {
