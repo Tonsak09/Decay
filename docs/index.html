@@ -56,11 +56,11 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/Downloads.loader.js";
+      var loaderUrl = buildUrl + "/docs.loader.js";
       var config = {
-        dataUrl: buildUrl + "/Downloads.data.br",
-        frameworkUrl: buildUrl + "/Downloads.framework.js.br",
-        codeUrl: buildUrl + "/Downloads.wasm.br",
+        dataUrl: buildUrl + "/docs.data.gz",
+        frameworkUrl: buildUrl + "/docs.framework.js.gz",
+        codeUrl: buildUrl + "/docs.wasm.gz",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "DecayJam",
@@ -99,7 +99,7 @@
         canvas.style.height = "600px";
       }
 
-      canvas.style.background = "url('" + buildUrl + "/Downloads.jpg.br') center / cover";
+      canvas.style.background = "url('" + buildUrl + "/docs.jpg.gz') center / cover";
       loadingBar.style.display = "block";
 
       var script = document.createElement("script");
