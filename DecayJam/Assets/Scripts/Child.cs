@@ -76,6 +76,7 @@ public class Child : MonoBehaviour
         {
             // Still not attacked 
             FollowPath();
+            MovingSprites();
         }
 
        
@@ -189,6 +190,7 @@ public class Child : MonoBehaviour
             pathParent.GetComponent<Patrol>().RemoveChild(this);
 
             Instantiate(particleFx, this.transform.position, Quaternion.Euler(-90, 0, 0));
+            displayQuad.GetComponent<Renderer>().material.mainTexture = front[0];
 
             sm.PlaySoundFX(toDust, this.transform.position, "TODUST");
             StartCoroutine(TurnToAshCo());
