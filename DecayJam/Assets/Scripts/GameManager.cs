@@ -71,6 +71,7 @@ public class GameManager : MonoBehaviour
             {
                 endStarted = true;
                 endScreen.SetActive(true);
+                player.active = false;
 
                 finalCount.text = childCount.ToString();
                 finalTime.text = ((int)totalTime).ToString();
