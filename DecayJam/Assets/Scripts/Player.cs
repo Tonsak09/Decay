@@ -58,6 +58,9 @@ public class Player : MonoBehaviour
     [SerializeField] AnimationCurve spellSizeCurve;
     private float spellSizeLerp;
 
+    [Space]
+    [SerializeField] AudioSource spellSound;
+
     [Header("Animation")]
     [SerializeField] float animSpeed;
 
@@ -88,6 +91,7 @@ public class Player : MonoBehaviour
         {
             Movement();
             SpellPositioning();
+            spellSound.volume = spellSizeLerp;
         }
     }
 

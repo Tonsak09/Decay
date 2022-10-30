@@ -10,6 +10,8 @@ public class Child : MonoBehaviour
     [SerializeField] float delayBeforeAnim;
     [SerializeField] float animSpeed;
     [SerializeField] GameObject particleFx;
+    [SerializeField] ParticleSystem[] alarmedFx;
+    [SerializeField] Vector3 alarmOffset;
 
     [Header("Speeds")]
     [SerializeField] float walkSpeed;
@@ -180,6 +182,9 @@ public class Child : MonoBehaviour
             bouncing = true;
             sm.PlaySoundFX(castSound, this.transform.position, "CAST", 1, 1, 1);
             moveVec = (this.transform.position - witch.position).normalized;
+
+
+            ParticleSystem alarm = Instantiate(alarmedFx[Random.Range(0, alarmedFx.Length)], this.transform.position + alarmOffset, Quaternion.identity);
         }
 
         if (childCaptured)

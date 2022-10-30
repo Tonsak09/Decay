@@ -152,6 +152,11 @@ MonoBehaviour:
   animSpeed: 0.05
   particleFx: {fileID: 1536766727267581003, guid: ebea4d5388bf75b48bc5afd1552217e9,
     type: 3}
+  alarmedFx:
+  - {fileID: 3110940893418773040, guid: a561710c3851ed2429b7bc79cf22d22d, type: 3}
+  - {fileID: 3110940893418773040, guid: af769ad0e412a74448e466b3e7758b05, type: 3}
+  - {fileID: 3110940893418773040, guid: e7f0ac9caefc01a4483ba35bccee6daf, type: 3}
+  alarmOffset: {x: -0.054, y: 1.381, z: 0}
   walkSpeed: 2
   runSpeed: 3
   currentPathIndex: 0
