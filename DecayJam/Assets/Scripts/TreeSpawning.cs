@@ -11,6 +11,7 @@ public class TreeSpawning : MonoBehaviour
     [SerializeField] List<GameObject> treeSets;
     [SerializeField] int count;
     [SerializeField] bool spawn;
+    [SerializeField] bool cleaup;
 
     [Header("Transforms")]
     [SerializeField] Vector3 scales;
@@ -31,6 +32,12 @@ public class TreeSpawning : MonoBehaviour
             spawn = false;
             CleanUp();
             SpawnTrees();
+        }
+
+        if(cleaup)
+        {
+            cleaup = false;
+            CleanUp();
         }
     }
 
