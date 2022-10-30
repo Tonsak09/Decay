@@ -66,25 +66,27 @@ public class Player : MonoBehaviour
     [SerializeField] float maxDis;
     [SerializeField] Vector3 offset;
 
-    [Header("Sound")]
-
     private MiniAnimator mini;
     private SoundManager sm;
+
+    public bool active;
 
     // Start is called before the first frame update
     void Start()
     {
         mini = this.GetComponent<MiniAnimator>();
         sm = GameObject.FindObjectOfType<SoundManager>();
+        active = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        Movement();
-        SpellPositioning();
-
+        if(active)
+        {
+            Movement();
+            SpellPositioning();
+        }
     }
 
     private void SpellPositioning()
@@ -95,11 +97,13 @@ public class Player : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, maxDis, spellMask))
         {
+            Vector3 point = new  Vector3(hit.point.x, 0, hit.point.z);
+
             // Putting Spell down 
             if (Input.GetMouseButton(0))
             {
-                spell.transform.position = hit.point + offset;
-                Collider[] colliders = Physics.OverlapSphere(hit.point, spellRadiusMax * spellSizeLerp, childMask);
+                spell.transform.position = point + offset;
+                Collider[] colliders = Physics.OverlapSphere(point, spellRadiusMax * spellSizeLerp, childMask);
 
                 // Goes through list and captures every child 
                 for (int i = 0; i < colliders.Length; i++)
@@ -110,7 +114,7 @@ public class Player : MonoBehaviour
 
                 spellSizeLerp = Mathf.Clamp01(spellSizeLerp + Time.deltaTime * appearSpeed);
                 fingerRend.material.mainTexture = pressed;
-                finger.position = hit.point + fingerOffsetPressed;
+                finger.position = point + fingerOffsetPressed;
             }
             else
             {
