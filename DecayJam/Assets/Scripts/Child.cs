@@ -29,8 +29,17 @@ public class Child : MonoBehaviour
     [SerializeField] Texture[] turnToAsh;
     [SerializeField] Transform displayQuad;
 
+    [Header("Sounds")]
+    [SerializeField] AudioClip toDust;
+    [SerializeField] AudioClip eyesLand;
+    [SerializeField] AudioClip castSound;
+
+
     private MiniAnimator mini;
+
     private GameManager gm;
+    private SoundManager sm;
+
     public Transform pathParent;
     private List<Vector3> path;
     private float captureAmount;
@@ -42,6 +51,7 @@ public class Child : MonoBehaviour
     void Start()
     {
         gm = GameObject.FindObjectOfType<GameManager>();
+        sm = GameObject.FindObjectOfType<SoundManager>();
         mini = this.GetComponent<MiniAnimator>();
     }
 
@@ -167,6 +177,7 @@ public class Child : MonoBehaviour
         if (captureAmount > 0 && bouncing == false)
         {
             bouncing = true;
+            sm.PlaySoundFX(castSound, this.transform.position, "CAST", 1, 1, 1);
             moveVec = (this.transform.position - witch.position).normalized;
         }
 
@@ -179,6 +190,7 @@ public class Child : MonoBehaviour
 
             Instantiate(particleFx, this.transform.position, Quaternion.Euler(-90, 0, 0));
 
+            sm.PlaySoundFX(toDust, this.transform.position, "TODUST");
             StartCoroutine(TurnToAshCo());
             // Follow witch 
         }
@@ -201,6 +213,7 @@ public class Child : MonoBehaviour
 
         float totalTime = animSpeed * (turnToAsh.Length + 1);
         yield return new WaitForSeconds(totalTime);
+        sm.PlaySoundFX(eyesLand, this.transform.position, "EYES");
         mini.active = false;
     }
 

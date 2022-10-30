@@ -66,13 +66,16 @@ public class Player : MonoBehaviour
     [SerializeField] float maxDis;
     [SerializeField] Vector3 offset;
 
-    private MiniAnimator mini;
+    [Header("Sound")]
 
+    private MiniAnimator mini;
+    private SoundManager sm;
 
     // Start is called before the first frame update
     void Start()
     {
         mini = this.GetComponent<MiniAnimator>();
+        sm = GameObject.FindObjectOfType<SoundManager>();
     }
 
     // Update is called once per frame
@@ -102,6 +105,7 @@ public class Player : MonoBehaviour
                 for (int i = 0; i < colliders.Length; i++)
                 {
                     colliders[i].GetComponent<Child>().CaptureChild(this.transform);
+                    //sm.PlaySoundFX(castSound, this.transform.position, "CAST", 1, 1, 3);
                 }
 
                 spellSizeLerp = Mathf.Clamp01(spellSizeLerp + Time.deltaTime * appearSpeed);
@@ -115,8 +119,6 @@ public class Player : MonoBehaviour
                 fingerRend.material.mainTexture = unpressed;
                 finger.position = hit.point + fingerOffsetUnPressed;
             }
-
-            
 
         }
         else

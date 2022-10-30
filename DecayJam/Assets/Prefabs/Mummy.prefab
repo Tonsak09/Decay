@@ -148,7 +148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bar: {fileID: 4454801490841622164}
   captureSpeed: 1
-  delayBeforeAnim: 1
+  delayBeforeAnim: 1.2
   animSpeed: 0.05
   particleFx: {fileID: 1536766727267581003, guid: ebea4d5388bf75b48bc5afd1552217e9,
     type: 3}
@@ -188,6 +188,9 @@ MonoBehaviour:
   - {fileID: 2800000, guid: f5e6170afad5edc4480d3c3fe6d09450, type: 3}
   - {fileID: 2800000, guid: a57079aa3ad1eb44e95069fecb70d7c6, type: 3}
   displayQuad: {fileID: 4454801490057790847}
+  toDust: {fileID: 8300000, guid: 0f26200b0e565c24697938c4b95329a9, type: 3}
+  eyesLand: {fileID: 8300000, guid: 10d1fba445baa1c44a8c52b1d1f4eae5, type: 3}
+  castSound: {fileID: 8300000, guid: e5944d676184ef74082a984297263e89, type: 3}
   pathParent: {fileID: 0}
 --- !u!114 &4454801490237708803
 MonoBehaviour:
