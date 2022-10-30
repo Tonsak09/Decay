@@ -165,7 +165,7 @@ public class Child : MonoBehaviour
         currentPathIndex = _index;
     }
 
-    public bool CaptureChild(Transform witch)
+    public virtual bool CaptureChild(Transform witch)
     {
         if(captureAmount > 1)
         {
