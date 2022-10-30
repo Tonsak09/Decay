@@ -60,6 +60,7 @@ public class Player : MonoBehaviour
 
     [Space]
     [SerializeField] AudioSource spellSound;
+    [SerializeField] AudioClip playOnClick;
 
     [Header("Animation")]
     [SerializeField] float animSpeed;
@@ -118,9 +119,16 @@ public class Player : MonoBehaviour
                     //sm.PlaySoundFX(castSound, this.transform.position, "CAST", 1, 1, 3);
                 }
 
+                if (spellSizeLerp == 0)
+                {
+                    sm.PlaySoundFX(playOnClick, hit.point, "ONCLICK", 1, 1, 1);
+                }
+
                 spellSizeLerp = Mathf.Clamp01(spellSizeLerp + Time.deltaTime * appearSpeed);
                 fingerRend.material.mainTexture = pressed;
                 finger.position = point + fingerOffsetPressed;
+
+                
             }
             else
             {
