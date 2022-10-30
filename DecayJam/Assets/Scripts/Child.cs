@@ -9,6 +9,7 @@ public class Child : MonoBehaviour
     [SerializeField] float captureSpeed;
     [SerializeField] float delayBeforeAnim;
     [SerializeField] float animSpeed;
+    [SerializeField] GameObject particleFx;
 
     [Header("Speeds")]
     [SerializeField] float walkSpeed;
@@ -175,6 +176,9 @@ public class Child : MonoBehaviour
             bar.localScale = Vector3.zero;
             gm.ConsumeChild();
             pathParent.GetComponent<Patrol>().RemoveChild(this);
+
+            Instantiate(particleFx, this.transform.position, Quaternion.Euler(-90, 0, 0));
+
             StartCoroutine(TurnToAshCo());
             // Follow witch 
         }

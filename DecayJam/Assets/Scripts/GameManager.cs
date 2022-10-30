@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
     private float totalTime;
     private int childCount;
 
+    public float TimeLeft { get { return timer; } }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,15 +52,20 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         totalTime += Time.deltaTime;
 
         if (timer > 0)
         {
+            Cursor.visible = false;
+
             timerText.text = ((int)timer).ToString();
             timer -= timerSpeed * Time.deltaTime;
         }
         else
         {
+            Cursor.visible = true;
+
             if (!endStarted)
             {
                 endStarted = true;
